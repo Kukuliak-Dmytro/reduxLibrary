@@ -1,13 +1,13 @@
 import {useSelector, useDispatch} from 'react-redux';
-import { AppDispatch } from './state/store';
+import { AppDispatch, RootState } from './state/store';
 import {readAllBooks} from './state/books/booksSlice';
 const Books = () => {
-    const books = useSelector((state: any) => state.books);
+    const books = useSelector((state:RootState) => state.BookStore);
     const dispatch = useDispatch<AppDispatch>();
     return (
         <div>
-        <h1>Books</h1>
-        <p>books</p>
+        <h1>Redux Library</h1>
+        <ul>{books.books.map((book)=><li key={book.id}>{book.title}</li>)}</ul>
         <button onClick={()=>dispatch(readAllBooks())}>Read all books</button>
         </div>
     );

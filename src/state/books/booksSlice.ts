@@ -24,30 +24,33 @@ const booksSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-        .addCase(readAllBooks.pending, (state) => {
-            state.status = 'loading'
-        }
-        )
-        .addCase(readAllBooks.fulfilled, (state,action) => {
-            state.status = 'loaded'
-            state.books = action.payload
-            console.log(state.books)
-        })
-        .addCase(readAllBooks.rejected, (state,action) => {
-            state.status = 'failed'
-            state.error = action.error.message
-        })
-    }
+            .addCase(readAllBooks.pending, (state) => {
+                state.status = 'loading'
+            }
+            )
+            .addCase(readAllBooks.fulfilled, (state, action) => {
+                state.status = 'loaded'
+                state.books = action.payload
+                console.log(state.books)
+            })
+            .addCase(readAllBooks.rejected, (state, action) => {
+                state.status = 'failed'
+                state.error = action.error.message
+            })
+    },
 })
 export const readAllBooks = createAsyncThunk(
     'books/readAll',
     async () => {
-        let data:Book[] = []
-        await new Promise(() => 
-        fetch('http://localhost:3001/items')
-        .then((result)=>{console.log(result);data=result}))
-        return data
-})
+        try
+       { const response = await fetch('http://localhost:3001/items');
+        const data: Book[] = await response.json();
+        return data;}
+        catch(error){
+            throw Error(`Failed to fetch books:${error}`)
+        }
+    }
+)
 
 // export const { readAllBook } = booksSlice.actions
 export default booksSlice.reducer
