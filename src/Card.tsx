@@ -1,11 +1,20 @@
-import { Book } from "./state/books/booksSlice";
+import { useDispatch } from "react-redux";
+import { Book, deleteBook } from "./state/books/booksSlice";
+import { AppDispatch } from './state/store';
+import { closeModal, openModalWithContent } from "./state/modal/modalSlice";
 import deleteSVG from "../public/delete.svg";
 import editSVG from "../public/edit.svg";
-import { deleteBook } from "./state/books/booksSlice";
-import { AppDispatch } from './state/store';
-import { useDispatch } from "react-redux";
 const Card: React.FC<{ book: Book,  }> = ({ book }) => {
     const dispatch = useDispatch<AppDispatch>();
+    const handleDelete = ()=>{  
+        dispatch(openModalWithContent(
+            <div>
+                <h2>Are you sure you want to delete this book?</h2>
+                <button onClick={()=>{dispatch(deleteBook(book.id));dispatch(closeModal())}}>Yes</button>
+                <button onClick={()=>dispatch(closeModal())}>No</button>
+            </div>
+        ));
+    }
     return (
         <div className="cardWrapper">
             <div className="card" >
@@ -16,7 +25,7 @@ const Card: React.FC<{ book: Book,  }> = ({ book }) => {
                     <p>Pages: {book.pages}</p>
                 </div>
                 <div className="card-controls">
-                    <button><img src={deleteSVG} alt=""  onClick={()=>dispatch(deleteBook(book.id))}/></button>
+                    <button><img src={deleteSVG} alt=""  onClick={handleDelete}/></button>
                     <button><img src={editSVG} alt="" /></button>
                 </div>
             </div>
