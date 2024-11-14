@@ -51,6 +51,21 @@ export const readAllBooks = createAsyncThunk(
         }
     }
 )
+export const deleteBook = createAsyncThunk(
+    'books/delete',
+    async (id: string, { dispatch }) => {
+        try {
+            const response = await fetch(`http://localhost:3001/books/${id}`, {
+                method: 'DELETE',
+            });
+            const data: Book[] = await response.json();
+            dispatch(readAllBooks()); // Call another reducer after deletion
+            return data;
+        } catch (error) {
+            throw Error(`Failed to delete book: ${error}`);
+        }
+    }
+)
 
 // export const { readAllBook } = booksSlice.actions
 export default booksSlice.reducer
