@@ -1,7 +1,24 @@
 {
-    "items": [
-      { "id": 1, "title": "Item 1", "description": "This is item 1" },
-      { "id": 2, "title": "Item 2", "description": "This is item 2" }
-    ]
-  }
-  
+  "books": [
+    { "id": "1", "title": "To Kill a Mockingbird", "genre": "Fiction", "description": "A novel by Harper Lee published in 1960.", "pages": 281 },
+    { "id": "2", "title": "1984", "genre": "Dystopian", "description": "A novel by George Orwell, published in 1949.", "pages": 328 },
+    { "id": "3", "title": "Pride and Prejudice", "genre": "Romance", "description": "A romantic novel by Jane Austen, published in 1813.", "pages": 279 },
+    { "id": "4", "title": "The Great Gatsby", "genre": "Tragedy", "description": "A novel by F. Scott Fitzgerald, published in 1925.", "pages": 180 },
+    { "id": "5", "title": "Moby-Dick", "genre": "Adventure", "description": "A novel by Herman Melville, published in 1851.", "pages": 635 },
+    { "id": "6", "title": "War and Peace", "genre": "Historical", "description": "A novel by Leo Tolstoy, published in 1869.", "pages": 1225 },
+    { "id": "7", "title": "The Catcher in the Rye", "genre": "Fiction", "description": "A novel by J.D. Salinger, published in 1951.", "pages": 214 },
+    { "id": "8", "title": "The Hobbit", "genre": "Fantasy", "description": "A fantasy novel by J.R.R. Tolkien, published in 1937.", "pages": 310 },
+    { "id": "9", "title": "Fahrenheit 451", "genre": "Dystopian", "description": "A dystopian novel by Ray Bradbury, published in 1953.", "pages": 194 },
+    { "id": "10", "title": "Jane Eyre", "genre": "Romance", "description": "A novel by Charlotte Brontë, published in 1847.", "pages": 500 },
+    { "id": "11", "title": "Brave New World", "genre": "Dystopian", "description": "A dystopian novel by Aldous Huxley, published in 1932.", "pages": 311 },
+    { "id": "12", "title": "Wuthering Heights", "genre": "Romance", "description": "A novel by Emily Brontë, published in 1847.", "pages": 416 },
+    { "id": "13", "title": "The Odyssey", "genre": "Epic", "description": "An epic poem attributed to Homer, composed around 800 BC.", "pages": 541 },
+    { "id": "14", "title": "Crime and Punishment", "genre": "Psychological", "description": "A novel by Fyodor Dostoevsky, published in 1866.", "pages": 671 },
+    { "id": "15", "title": "The Brothers Karamazov", "genre": "Philosophical", "description": "A novel by Fyodor Dostoevsky, published in 1880.", "pages": 824 },
+    { "id": "16", "title": "The Divine Comedy", "genre": "Epic", "description": "An epic poem by Dante Alighieri, completed in 1320.", "pages": 798 },
+    { "id": "17", "title": "The Iliad", "genre": "Epic", "description": "An epic poem attributed to Homer, composed around 750 BC.", "pages": 704 },
+    { "id": "18", "title": "Les Misérables", "genre": "Historical", "description": "A novel by Victor Hugo, published in 1862.", "pages": 1463 },
+    { "id": "19", "title": "Anna Karenina", "genre": "Romance", "description": "A novel by Leo Tolstoy, published in 1877.", "pages": 864 },
+    { "id": "20", "title": "Don Quixote", "genre": "Adventure", "description": "A novel by Miguel de Cervantes, published in 1605.", "pages": 1072 }
+  ]
+}

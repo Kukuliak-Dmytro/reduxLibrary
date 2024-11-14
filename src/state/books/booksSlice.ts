@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
-interface Book {
+export interface Book {
     id: string
     title: string
-    year: number
+    genre: string
     description: string
     pages: number
 }
-interface booksState {
+export interface booksState {
     books: Book[]
     status: 'loaded' | 'loading' | 'failed'
     error: string | undefined
@@ -43,7 +43,7 @@ export const readAllBooks = createAsyncThunk(
     'books/readAll',
     async () => {
         try
-       { const response = await fetch('http://localhost:3001/items');
+       { const response = await fetch('http://localhost:3001/books');
         const data: Book[] = await response.json();
         return data;}
         catch(error){
