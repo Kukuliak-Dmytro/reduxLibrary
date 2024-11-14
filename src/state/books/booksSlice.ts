@@ -31,7 +31,7 @@ const booksSlice = createSlice({
             .addCase(readAllBooks.fulfilled, (state, action) => {
                 state.status = 'loaded'
                 state.books = action.payload
-                console.log(state.books)
+                // console.log(state.books)
             })
             .addCase(readAllBooks.rejected, (state, action) => {
                 state.status = 'failed'
@@ -99,6 +99,8 @@ export const editBook = createAsyncThunk(
             });
             const data: Book[] = await response.json();
             dispatch(readAllBooks()); 
+            console.log(data)
+            console.log(book)
             return data;
         } catch (error) {
             throw Error(`Failed to edit book: ${error}`);
