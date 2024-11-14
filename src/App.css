@@ -78,3 +78,13 @@
   border-radius:50%;
   animation: spin 1s linear infinite;
 }
+.form{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  input{
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+}

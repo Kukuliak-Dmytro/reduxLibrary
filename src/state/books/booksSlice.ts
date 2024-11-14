@@ -37,6 +37,7 @@ const booksSlice = createSlice({
                 state.status = 'failed'
                 state.error = action.error.message
             })
+            
     },
 })
 export const readAllBooks = createAsyncThunk(
@@ -66,6 +67,46 @@ export const deleteBook = createAsyncThunk(
         }
     }
 )
+export const addBook = createAsyncThunk(
+    'books/add',
+    async (book: Book, { dispatch }) => {
+        try {
+            const response = await fetch(`http://localhost:3001/books`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(book),
+            });
+            const data: Book[] = await response.json();
+            dispatch(readAllBooks());
+            return data;
+        } catch (error) {
+            throw Error(`Failed to add book: ${error}`);
+        }
+    }
+)
+export const editBook = createAsyncThunk(
+    'books/edit',
+    async (book: Book, { dispatch }) => {
+        try {
+            const response = await fetch(`http://localhost:3001/books/${book.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(book),
+            });
+            const data: Book[] = await response.json();
+            dispatch(readAllBooks()); 
+            return data;
+        } catch (error) {
+            throw Error(`Failed to edit book: ${error}`);
+        }
+    }
+)
+
+
 
 // export const { readAllBook } = booksSlice.actions
 export default booksSlice.reducer

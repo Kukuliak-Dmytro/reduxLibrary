@@ -1,12 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Book } from '../books/booksSlice';
 interface ModalState {
     isOpen: boolean;
-    content: React.ReactNode;
-}
+    isConfirmation: boolean;
+    isForm: boolean;
+    currentBook: Book | null
 
+    
+}
 const initialState: ModalState = {
     isOpen: false,
-    content: null,
+    isConfirmation: false,
+    isForm: false,
+    currentBook: null,
+
+
 };
 const modalSlice = createSlice({
     name: 'modal',
@@ -18,13 +26,22 @@ const modalSlice = createSlice({
         closeModal(state) {
             state.isOpen = false;
         },
-        openModalWithContent(state, action:PayloadAction<React.ReactNode>) {
+        openModalWithConfirmation(state, action: PayloadAction<Book>) {
             state.isOpen = true;
-            state.content = action.payload;
-        }
+            state.isConfirmation = true;
+            state.isForm = false;
+            state.currentBook = action.payload;
+        },
+        openModalWithForm(state, action: PayloadAction<Book>) {
+            state.isOpen = true;
+            state.isConfirmation = false;
+            state.isForm = true
+            state.currentBook = action.payload;
 
-    },
+
+        },
+    }
 });
 
-export const { openModal, closeModal,openModalWithContent } = modalSlice.actions;
+export const { openModal, closeModal, openModalWithConfirmation, openModalWithForm } = modalSlice.actions;
 export default modalSlice.reducer;
