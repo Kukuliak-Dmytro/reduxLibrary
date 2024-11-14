@@ -8,10 +8,11 @@ import { deleteBook } from './state/books/booksSlice';
 import { editBook } from './state/books/booksSlice';
 import { Formik, Field, Form } from 'formik';
 import { Book } from './state/books/booksSlice';
+import { addBook } from './state/books/booksSlice';
 const Modal: React.FC = () => {
     const modalData = useSelector((state: RootState) => state.modalStore);
     const dispatch = useDispatch<AppDispatch>();
-    
+
     if (!modalData.isOpen) return null;
 
     const styles = {
@@ -63,6 +64,60 @@ const Modal: React.FC = () => {
 
         );
     }
+    else if (modalData.isCreate && modalData.isForm) {
+        return (
+            <div style={styles.modalOverlay} onClick={onClose}>
+                <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+                    <button style={styles.modalClose} onClick={onClose}>
+                        &times;
+                    </button>
+                    <div className="form">
+                        <h2>Create a book</h2>
+                        <Formik
+                            initialValues={{
+                                title: '',
+                                description: '',
+                                genre: '',
+                                pages: 0,
+
+                            }}
+                            onSubmit={async (values) => {
+                                await new Promise((r) => setTimeout(r, 500));
+                                dispatch(addBook(values));
+                                dispatch(closeModal());
+                            }}
+                        >
+                            <Form className='form'>
+                                <label htmlFor="title">Title</label>
+                                <Field id="title" name="title" placeholder="Title" />
+
+                                <label htmlFor="description">Description</label>
+                                <Field
+                                    id="description"
+                                    name="description"
+                                    placeholder="Description"
+                                />
+                                <label htmlFor="genre">Genre</label>
+                                <Field id="genre" name="genre" placeholder="Genre" />
+
+
+                                <label htmlFor="pages">Pages</label>
+                                <Field
+                                    id="pages"
+                                    name="pages"
+                                    placeholder="Pages"
+                                    type="number"
+                                />
+                                <button type='submit'>Save</button>
+                                <button type='button' onClick={() => dispatch(closeModal())}>Cancel</button>
+                            </Form>
+                        </Formik>
+
+                    </div>
+                </div>
+            </div>
+        );
+    }
     else if (modalData.isForm) {
 
         return (
@@ -72,7 +127,7 @@ const Modal: React.FC = () => {
                         &times;
                     </button>
                     <div className="form">
-                        <h2>Edit book</h2>
+                        <h2>Edit the book</h2>
                         <Formik
                             initialValues={{
                                 id: modalData.currentBook?.id,
@@ -80,18 +135,18 @@ const Modal: React.FC = () => {
                                 description: modalData.currentBook?.description,
                                 genre: modalData.currentBook?.genre,
                                 pages: modalData.currentBook?.pages,
-                                
+
                             }}
                             onSubmit={async (values) => {
                                 await new Promise((r) => setTimeout(r, 500));
-                                dispatch(editBook(values as Book)); 
+                                dispatch(editBook(values as Book));
                                 dispatch(closeModal());
                             }}
                         >
                             <Form className='form'>
                                 <label htmlFor="title">Title</label>
                                 <Field id="title" name="title" placeholder="Title" />
-                                
+
                                 <label htmlFor="description">Description</label>
                                 <Field
                                     id="description"
@@ -101,7 +156,7 @@ const Modal: React.FC = () => {
                                 <label htmlFor="genre">Genre</label>
                                 <Field id="genre" name="genre" placeholder="genre" />
 
-                                
+
                                 <label htmlFor="pages">Pages</label>
                                 <Field
                                     id="pages"
@@ -112,7 +167,7 @@ const Modal: React.FC = () => {
                                 <button type='button' onClick={() => dispatch(closeModal())}>Cancel</button>
                             </Form>
                         </Formik>
-                       
+
                     </div>
                 </div>
             </div>

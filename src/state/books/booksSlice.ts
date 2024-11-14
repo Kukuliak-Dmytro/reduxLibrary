@@ -69,7 +69,7 @@ export const deleteBook = createAsyncThunk(
 )
 export const addBook = createAsyncThunk(
     'books/add',
-    async (book: Book, { dispatch }) => {
+    async (book:{title:string,description:string,genre:string,pages:number}, { dispatch }) => {
         try {
             const response = await fetch(`http://localhost:3001/books`, {
                 method: 'POST',
@@ -80,6 +80,8 @@ export const addBook = createAsyncThunk(
             });
             const data: Book[] = await response.json();
             dispatch(readAllBooks());
+            console.log(data)
+            console.log(book)
             return data;
         } catch (error) {
             throw Error(`Failed to add book: ${error}`);
@@ -99,8 +101,7 @@ export const editBook = createAsyncThunk(
             });
             const data: Book[] = await response.json();
             dispatch(readAllBooks()); 
-            console.log(data)
-            console.log(book)
+           
             return data;
         } catch (error) {
             throw Error(`Failed to edit book: ${error}`);

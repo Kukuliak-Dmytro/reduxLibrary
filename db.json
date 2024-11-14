@@ -69,13 +69,6 @@
       "genre": "Romance",
       "description": "A novel by Leo Tolstoy, published in 1877.",
       "pages": 864
-    },
-    {
-      "id": "20",
-      "title": "Don Quixote",
-      "genre": "Adventure",
-      "description": "A novel by Miguel de Cervantes, published in 1605.",
-      "pages": 1072
     }
   ]
 }
