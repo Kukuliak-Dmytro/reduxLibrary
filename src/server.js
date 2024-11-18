@@ -1,4 +1,6 @@
-[
+import * as http from 'http';
+import * as fs from 'fs';
+const data=[
     {
       "id": "10",
       "title": "To kill a mockingbird",
@@ -57,3 +59,18 @@
     }
   ]
 
+const server = http.createServer((req,res)=>{
+    if(req.method==="GET" && req.url==="/books"){
+        res.writeHead(200,{'Content-Type':'application/json'});
+        res.write(JSON.stringify(data));
+        res.end();
+    }else{
+        res.writeHead(404,{'Content-Type':'application/json'});
+        res.write(JSON.stringify({message:"Route not found"}));
+        res.end();
+    }
+})
+server.listen(3000,()=>{
+    console.log("Server is running on port 3000");
+})
+console.log(data[1]);
