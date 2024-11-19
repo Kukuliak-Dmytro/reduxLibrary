@@ -72,8 +72,30 @@ const getBookById = (receivedId) => {
   }
   return JSON.stringify({ message: "Book not found" });
 };
+const editBookById=(receivedId, updatedBook )=>{
+  for(let i=0; i<data.length;i++){
+    if(data[i].id===receivedId){
+      // data[i]=updatedBook;
+      data[i].id=receivedId;
+      data[i].title=updatedBook.title
+      data[i].description=updatedBook.description
+      data[i].genre=updatedBook.genre
+      data[i].pages=updatedBook.pages
+      return JSON.stringify(data[i])
+    }
+  }
+  return JSON.stringify({ message: "Book not found" });;
+}
 const server = http.createServer((req,res)=>{
-   if(req.method==='GET' && req.url==='/books' )
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') {
+        res.writeHead(204);
+        res.end();
+        return;
+    }
+  if(req.method==='GET' && req.url==='/books' )
   {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.write(getAllBooks());
@@ -84,12 +106,23 @@ const server = http.createServer((req,res)=>{
     res.writeHead(200,{'Content-Type': 'application/json'});
     res.write((getBookById(id)))
     res.end()
-  }
-  else if (req.method === "GET" && req.url === "/") {
+  }else if (req.method === "GET" && req.url === "/") {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.write(JSON.stringify({ message: "This is the API root" }));
     res.end();
-  } else {
+  } else if (req.method === 'PUT' && req.url.match(/\/books\/([0-9]+)/)) {
+    const id = req.url.split('/').pop();
+    let body = ``;
+    req.on('data', (chunk) => {
+        body += chunk.toString();
+    });
+    req.on('end', () => {
+        const updatedBook = JSON.parse(body);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.write(editBookById(id, updatedBook));
+        res.end();
+    });
+  }else {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.write(JSON.stringify({ message: "Route not found" }));
     res.end();

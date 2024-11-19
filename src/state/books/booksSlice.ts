@@ -44,7 +44,7 @@ export const readAllBooks = createAsyncThunk(
     'books/readAll',
     async () => {
         try
-       { const response = await fetch('http://localhost:3001/books');
+       { const response = await fetch('http://localhost:3000/books');
         const data: Book[] = await response.json();
         return data;}
         catch(error){
@@ -56,7 +56,7 @@ export const deleteBook = createAsyncThunk(
     'books/delete',
     async (id: string, { dispatch }) => {
         try {
-            const response = await fetch(`http://localhost:3001/books/${id}`, {
+            const response = await fetch(`http://localhost:3000/books/${id}`, {
                 method: 'DELETE',
             });
             const data: Book[] = await response.json();
@@ -71,7 +71,7 @@ export const addBook = createAsyncThunk(
     'books/add',
     async (book:{title:string,description:string,genre:string,pages:number}, { dispatch }) => {
         try {
-            const response = await fetch(`http://localhost:3001/books`, {
+            const response = await fetch(`http://localhost:3000/books`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ export const editBook = createAsyncThunk(
     'books/edit',
     async (book: Book, { dispatch }) => {
         try {
-            const response = await fetch(`http://localhost:3001/books/${book.id}`, {
+            const response = await fetch(`http://localhost:3000/books/${book.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
