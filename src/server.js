@@ -57,7 +57,7 @@ const data=[
       "pages": 864
     }
   ]
-
+let highestId=19
 const getAllBooks= ()=>{
   return JSON.stringify(data)
 }
@@ -69,6 +69,14 @@ const getBookById = (receivedId) => {
   if (book) {
       console.log(book);
       return JSON.stringify(book);
+  }
+  return JSON.stringify({ message: "Book not found" });
+};
+const deleteBookById = (receivedId) => {
+  const bookIndex = data.findIndex(book => String(book.id) === String(receivedId));
+  if (bookIndex !== -1) {
+      const deletedBook = data.splice(bookIndex, 1)[0];
+      return JSON.stringify(deletedBook);
   }
   return JSON.stringify({ message: "Book not found" });
 };
@@ -86,6 +94,12 @@ const editBookById=(receivedId, updatedBook )=>{
   }
   return JSON.stringify({ message: "Book not found" });;
 }
+const createBook=(book)=>{
+    data.push(book)
+    return JSON.stringify(book)
+
+}
+
 const server = http.createServer((req,res)=>{
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -94,35 +108,58 @@ const server = http.createServer((req,res)=>{
         res.writeHead(204);
         res.end();
         return;
-    }
+  }
   if(req.method==='GET' && req.url==='/books' )
   {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.write(getAllBooks());
     res.end();
-  }else if( req.method==='GET' && req.url.match(/\/books\/([0-9]+)/)){
+  } else if( req.method==='GET' && req.url.match(/\/books\/([0-9]+)/)){
     const splits=req.url.split('/')
     const id=splits[splits.length - 1]
     res.writeHead(200,{'Content-Type': 'application/json'});
     res.write((getBookById(id)))
     res.end()
-  }else if (req.method === "GET" && req.url === "/") {
+  } else if (req.method === "GET" && req.url === "/") {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.write(JSON.stringify({ message: "This is the API root" }));
     res.end();
   } else if (req.method === 'PUT' && req.url.match(/\/books\/([0-9]+)/)) {
     const id = req.url.split('/').pop();
-    let body = ``;
+    let body=''
     req.on('data', (chunk) => {
         body += chunk.toString();
     });
     req.on('end', () => {
+
         const updatedBook = JSON.parse(body);
+      
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.write(editBookById(id, updatedBook));
         res.end();
     });
-  }else {
+  } else if (req.method==='DELETE' &&  req.url.match(/\/books\/([0-9]+)/)){
+    const splits=req.url.split('/')
+    const id=splits[splits.length - 1]
+    res.writeHead(200,{'Content-Type': 'application/json'});
+    res.write((deleteBookById(id)))
+    res.end()
+  } else if( req.method==='POST' && req.url==='/books' ){
+    let body=''
+    req.on('data', (chunk) => {
+      body += chunk.toString();
+  });
+  
+  req.on('end', () => {
+      const createdBook = JSON.parse(body);
+      highestId=highestId+1
+      createdBook.id=highestId+1
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.write(createBook( createdBook));
+      res.end();
+  });
+  }
+  else{
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.write(JSON.stringify({ message: "Route not found" }));
     res.end();
